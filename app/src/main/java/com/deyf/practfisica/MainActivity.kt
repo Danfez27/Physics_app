@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         botonp1.setOnClickListener{
             val miIntentp1 = Intent(
                 this,
-                practica1p1::class.java)
+                Practica1p1::class.java)
             startActivity(miIntentp1)
         }
         //Acción de abrir la parte 1 de la práctica 1
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         botonp2.setOnClickListener{
             val miIntentp2 = Intent(
                 this,
-                practica1p2::class.java)
+                Practica1p2::class.java)
             startActivity(miIntentp2)
         }
 
