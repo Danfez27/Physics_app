@@ -1,4 +1,4 @@
-package com.deyf.fisica
+package com.deyf.practfisica
 
 import org.junit.Test
 

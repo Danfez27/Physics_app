@@ -1,53 +1,67 @@
-package com.deyf.fisica
+package com.deyf.practfisica
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 
-//importamos los módulos
+//Import the needed libraries and dependencies
 import android.Manifest
-import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothSocket
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.app.ActivityCompat
 import java.io.IOException
-import java.util.*
 import java.nio.ByteBuffer
-
-//constantes
+import java.util.*
+//Declaramos variable para la comuncación
 const val REQUEST_ENABLE_BT = 1
-
-//
 
 class MainActivity : AppCompatActivity() {
 
-
-    //BluetoothAdapter
+    //BluetoothAdapter y variables
     lateinit var mBtAdapter: BluetoothAdapter
     var mAddressDevices: ArrayAdapter<String>? = null
     var mNameDevices: ArrayAdapter<String>? = null
 
     companion object {
         var m_myUUID: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
-        private var m_bluetoothSocket: BluetoothSocket? = null
+        var m_bluetoothSocket: BluetoothSocket? = null
 
         var m_isConnected: Boolean = false
         lateinit var m_address: String
-        private lateinit var bluetoothSocket: BluetoothSocket
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Inicializamos variables
+        //Acción de abrir la parte 1 de la práctica 1
+        val botonp1 : Button = findViewById(R.id.btn_1pract1)
+
+        botonp1.setOnClickListener{
+            val miIntentp1 = Intent(
+                this,
+                practica1p1::class.java)
+            startActivity(miIntentp1)
+        }
+        //Acción de abrir la parte 1 de la práctica 1
+        val botonp2 : Button = findViewById(R.id.btn_2pract1)
+
+        botonp2.setOnClickListener{
+            val miIntentp2 = Intent(
+                this,
+                practica1p2::class.java)
+            startActivity(miIntentp2)
+        }
+
+        //dddddddddddddddddddddddddddddddddddddd
         mAddressDevices = ArrayAdapter(this, android.R.layout.simple_list_item_1)
         mNameDevices = ArrayAdapter(this, android.R.layout.simple_list_item_1)
 
@@ -58,11 +72,9 @@ class MainActivity : AppCompatActivity() {
         val idBtnDispBT = findViewById<Button>(R.id.idBtnDispBT)
         val idSpinDisp = findViewById<Spinner>(R.id.idSpinDisp)
         val txt1 = findViewById<TextView>(R.id.txt1)
-        val txt2 = findViewById<TextView>(R.id.txt2)
 
-        //....
-        //....
-
+        //--------------------------------------------------
+        //--------------------------------------------------
         val someActivityResultLauncher = registerForActivityResult(
             StartActivityForResult()
         ) { result ->
@@ -139,62 +151,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        @SuppressLint("SetTextI18n")
-        fun processData(data: Float) {
-
-            val datos = data + 1
-            // Aquí puedes hacer lo que quieras con el float
-            // Por ejemplo guardarlo, imprimirlo, etc.
-
-            txt2.text = "func ($datos)"
-
-        }
-
-
-
-        val bluetoothReader = object : Thread() {
-            override fun run() {
-                while (true) {
-
-                    // Recibir los datos Bluetooth
-                    val buffer = ByteArray(9000)
-                    m_bluetoothSocket?.inputStream?.read(buffer)
-                    val datos = ByteBuffer.wrap(buffer).double
-                    txt1.text = datos.toString()
-
-
-                    // Detectar datos cada 500 milisegundos
-                    try {
-                        Thread.sleep(500)
-                    } catch (e: InterruptedException) {
-                        e.printStackTrace()
-                    }
-
-        /*val bluetoothReader = object : Thread() {
-            override fun run() {
-                while (true) {
-
-                    // Recibir los datos Bluetooth
-                    val buffer = ByteArray(9000)
-                    m_bluetoothSocket?.inputStream?.read(buffer)
-                    val datos = ByteBuffer.wrap(buffer).double
-                    val datosFloat = datos.toFloat()
-                    txt1.text = datosFloat.toString()
-
-
-                    // Detectar datos cada 500 milisegundos
-                    try {
-                        Thread.sleep(500)
-                    } catch (e: InterruptedException) {
-                        e.printStackTrace()
-                }
-            }
-        }
-    }*/
-                }
-            }
-        }
-
         idBtnConect.setOnClickListener {
             try {
                 if (m_bluetoothSocket == null || !m_isConnected) {
@@ -212,22 +168,60 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this,"CONEXION EXITOSA",Toast.LENGTH_LONG).show()
                 Log.i("MainActivity", "CONEXION EXITOSA")
 
-                //Llamamos a la función de lectura
-                bluetoothReader.start()
-
-
-
             } catch (e: IOException) {
                 //connectSuccess = false
                 e.printStackTrace()
                 Toast.makeText(this,"ERROR DE CONEXION",Toast.LENGTH_LONG).show()
                 Log.i("MainActivity", "ERROR DE CONEXION")
             }
-
         }
+        val bluetoothReader = object : Thread() {
+            override fun run() {
+                while (true) {
+
+                    // Recibir los datos Bluetooth
+                    val buffer = ByteArray(900000)
+                    m_bluetoothSocket?.inputStream?.read(buffer)
+                    val datos = ByteBuffer.wrap(buffer).double
+                    txt1.text = datos.toString()
+                    // Detectar datos cada 500 milisegundos
+                    try {
+                        Thread.sleep(500)
+                    } catch (e: InterruptedException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }
+
+        /*val bluetoothReader = object : Thread() {
+    override fun run() {
+        while (true) {
+
+            // Recibir los datos Bluetooth
+            val buffer = ByteArray(9000)
+            m_bluetoothSocket?.inputStream?.read(buffer)
+            val datos = ByteBuffer.wrap(buffer).double
+            val datosFloat = datos.toFloat()
+            txt1.text = datosFloat.toString()
+
+
+            // Detectar datos cada 500 milisegundos
+            try {
+                Thread.sleep(500)
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+        }
+    }
+}
+}*/
+
+
+
 
 
 
     }
+
 
 }

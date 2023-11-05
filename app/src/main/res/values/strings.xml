@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Fisica</string>
+    <string name="app_name">practfisica</string>
+    <string name="logouny">Logouny</string>
+    <string name="membrete">Universidad Yacambú\nFacultad de Ingeniería\nClub de Robótica</string>
+    <string name="descripcion">Descripción</string>
+    <string name="textview">TextView</string>
+    <string name="practica1">Práctica 1</string>
+    <string name="parte1">Parte 1</string>
+    <string name="parte22">Parte 2</string>
 </resources>

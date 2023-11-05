@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Fisica"
+rootProject.name = "practfisica"
 include(":app")
