@@ -18,21 +18,27 @@ class Practica1p1 : AppCompatActivity() {
         val text3 = findViewById<TextView>(R.id.p1_txt3)
         val text4 = findViewById<TextView>(R.id.p1_txt4)
         val text5 = findViewById<TextView>(R.id.p1_txt5)
+
         var datos_nuevos =""
-        var datos: String
+        var datos = ""
         var cont = 0
         var texto = ""
+
         // Inicia el temporizador
 
-        fun startTimer(interval: Long) {
-            val timer = object : CountDownTimer(interval, interval) {
+        fun startTimer(time: Long,interval:Long ) {
+            val timer = object : CountDownTimer(time,interval) {
                 override fun onTick(millisUntilFinished: Long) {
+
                     //Aquí va la acción que se va a repetir cada x tiempo
-                    val buffer = ByteArray(9000)
+                    val buffer = ByteArray(1024)
                     MainActivity.m_bluetoothSocket?.inputStream?.read(buffer)
                     datos = ByteBuffer.wrap(buffer).double.toString()
 
-                    if (datos != datos_nuevos)
+                    if (datos != datos_nuevos){
+
+
+                        if(cont==3){texto =""}
 
                         when (cont) {
                             3 -> texto =""
@@ -48,6 +54,7 @@ class Practica1p1 : AppCompatActivity() {
 
                         datos_nuevos = datos
                         cont +=1
+                    }
 
                     if (cont <4)
                         text1.text = texto
@@ -69,7 +76,7 @@ class Practica1p1 : AppCompatActivity() {
 
             timer.start()
         }
-        startTimer(500)
+        startTimer(1000*60*5,2000)
 
 
 

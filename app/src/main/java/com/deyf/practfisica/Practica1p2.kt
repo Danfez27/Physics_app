@@ -23,30 +23,34 @@ class Practica1p2 : AppCompatActivity() {
         var texto = ""
         // Inicia el temporizador
 
-        fun startTimer(interval: Long) {
-            val timer = object : CountDownTimer(interval, interval) {
+        fun startTimer(time: Long,interval:Long ) {
+            val timer = object : CountDownTimer(time,interval) {
                 override fun onTick(millisUntilFinished: Long) {
                     //Aquí va la acción que se va a repetir cada x tiempo
                     val buffer = ByteArray(9000)
                     MainActivity.m_bluetoothSocket?.inputStream?.read(buffer)
                     datos = ByteBuffer.wrap(buffer).double.toString()
 
-                    if (datos != datos_nuevos)
+                    /*Condicional if que no se pq se debe poner pero bueno funciona Xd*/
+                    if (datos != datos_nuevos){
+
+                        if(cont==3){texto =""}
 
                         when (cont) {
-                            3 -> texto =""
+                            3 -> texto = ""
                             6 -> texto =""
                             9 -> texto =""
                             12 -> texto =""
                             15 -> texto =""
                         }
-                    if (texto == "")
-                        texto = datos
-                    else
-                        texto += "\n{$datos}"
+                        if (texto == ""){
+                            texto = datos}
+                        else{
+                            texto += "\n{$datos}"}
 
-                    datos_nuevos = datos
-                    cont +=1
+                        datos_nuevos = datos
+                        cont +=1}
+
 
                     when{
                         cont<4 -> text1.text = texto
@@ -75,6 +79,6 @@ class Practica1p2 : AppCompatActivity() {
 
             timer.start()
         }
-        startTimer(500)
+        startTimer(1000*60*5,2000)
     }
 }

@@ -18,11 +18,11 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.app.ActivityCompat
 import java.io.IOException
-import java.nio.ByteBuffer
 import java.util.*
 //Declaramos variable para la comuncación
 const val REQUEST_ENABLE_BT = 1
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     //BluetoothAdapter y variables
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         val idBtnDispBT = findViewById<Button>(R.id.idBtnDispBT)
         val idSpinDisp = findViewById<Spinner>(R.id.idSpinDisp)
-        val txt1 = findViewById<TextView>(R.id.txt1)
+
 
         //--------------------------------------------------
         //--------------------------------------------------
@@ -87,11 +87,7 @@ class MainActivity : AppCompatActivity() {
         mBtAdapter = (getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
 
         //Checar si esta encendido o apagado
-        if (mBtAdapter == null) {
-            Toast.makeText(this, "Bluetooth no está disponible en este dipositivo", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(this, "Bluetooth está disponible en este dispositivo", Toast.LENGTH_LONG).show()
-        }
+        Toast.makeText(this, "Bluetooth está disponible en este dispositivo", Toast.LENGTH_LONG).show()
         //--------------------------------------------------
         //--------------------------------------------------
         //Boton Encender bluetooth
@@ -129,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         idBtnDispBT.setOnClickListener {
             if (mBtAdapter.isEnabled) {
 
-                val pairedDevices: Set<BluetoothDevice>? = mBtAdapter?.bondedDevices
+                val pairedDevices: Set<BluetoothDevice>? = mBtAdapter.bondedDevices
                 mAddressDevices!!.clear()
                 mNameDevices!!.clear()
 
@@ -159,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                     m_address = mAddressDevices!!.getItem(IntValSpin).toString()
                     Toast.makeText(this,m_address,Toast.LENGTH_LONG).show()
                     // Cancel discovery because it otherwise slows down the connection.
-                    mBtAdapter?.cancelDiscovery()
+                    mBtAdapter.cancelDiscovery()
                     val device: BluetoothDevice = mBtAdapter.getRemoteDevice(m_address)
                     m_bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(m_myUUID)
                     m_bluetoothSocket!!.connect()
@@ -175,7 +171,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i("MainActivity", "ERROR DE CONEXION")
             }
         }
-        val bluetoothReader = object : Thread() {
+/*        val bluetoothReader = object : Thread() {
             override fun run() {
                 while (true) {
 
@@ -192,7 +188,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
+        }*/
 
         /*val bluetoothReader = object : Thread() {
     override fun run() {
