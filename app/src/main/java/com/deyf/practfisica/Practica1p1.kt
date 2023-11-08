@@ -30,44 +30,47 @@ class Practica1p1 : AppCompatActivity() {
             val timer = object : CountDownTimer(time,interval) {
                 override fun onTick(millisUntilFinished: Long) {
 
-                    //Aquí va la acción que se va a repetir cada x tiempo
+                    // Aquí va la acción que se va a repetir cada x tiempo
                     val buffer = ByteArray(1024)
                     MainActivity.m_bluetoothSocket?.inputStream?.read(buffer)
                     datos = ByteBuffer.wrap(buffer).double.toString()
 
-                    if (datos != datos_nuevos){
+                    if (datos != datos_nuevos) {
 
-
-                        if(cont==3){texto =""}
+                        if (cont == 3) {
+                            texto = ""
+                        }
 
                         when (cont) {
-                            3 -> texto =""
-                            6 -> texto =""
-                            9 -> texto =""
-                            12 -> texto =""
-                            15 -> texto =""
+                            3 -> texto = ""
+                            6 -> texto = ""
+                            9 -> texto = ""
+                            12 -> texto = ""
+                            15 -> texto = ""
                         }
-                        if (texto == "")
-                            texto = datos
-                        else
-                            texto += "\n{$datos}"
+
+                        if (texto == "") {
+                            texto = String.format("%.2f", datos)
+                        } else {
+                            texto += "\n" + String.format("%.2f", datos)
+                        }
 
                         datos_nuevos = datos
-                        cont +=1
+                        cont += 1
                     }
 
-                    if (cont <4)
+                    if (cont < 4) {
                         text1.text = texto
-                    else if (cont <7)
+                    } else if (cont < 7) {
                         text2.text = texto
-                    else if (cont <10)
+                    } else if (cont < 10) {
                         text3.text = texto
-                    else if (cont <13)
+                    } else if (cont < 13) {
                         text4.text = texto
-                    else if (cont <16)
+                    } else if (cont < 16) {
                         text5.text = texto
+                    }
                 }
-
                 override fun onFinish() {
                     // Muestra un mensaje
                     Toast.makeText(this@Practica1p1, "El temporizador ha terminado", Toast.LENGTH_LONG).show()
